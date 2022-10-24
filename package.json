@@ -1,0 +1,16 @@
+{
+  "name": "electron-marcador-de-ponto",
+  "version": "1.0.0",
+  "description": "marcador-de-ponto",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": " npm exec electron-packager c:Users/Leo/Desktop/Developer/Git-repositories/Electron-Marcador-de-Ponto"
+  },
+  "author": "leonardo C",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^21.2.0",
+    "electron-packager": "^17.0.0"
+  }
+}

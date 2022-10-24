@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PET - Marcador de Ponto</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./assets/js/app.js" defer type="module"></script>
+    <script type="module" src="./assets/backend/server.js" defer></script>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/images/favicon_io/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon_io/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/favicon_io/favicon-16x16.png" />
+    <link rel="manifest" href="./assets/images/favicon_io/site.webmanifest" />
+  </head>
+  <body>
+    <div id="backdrop"></div>
+    <header class="nav-bar">
+      <p>PET EDU UFV</p>
+      <img id="image-logo" src="assets/images/thumbnail_large (1).png" alt="logo-do-PET" />
+      <div class="nav-btn">
+        <a href="#" class="link-btn">Início</a>
+        <a href="#register-point" class="link-btn">Registro</a>
+        <a href="#historic-point" class="link-btn">Histórico</a>
+        <a href="#" id="justification-btn" class="link-btn">Justificativas</a>
+      </div>
+    </header>
+    <div id="backdrop"></div>
+    <div class="modal-justification" id="add-modal">
+      <div class="modal__content">
+        <label for="title">Movie Title</label>
+        <input type="text" name="title" id="title" />
+        <label for="image-url">Image URL</label>
+        <input type="text" name="image-url" id="image-url" />
+        <label for="rating">Your Rating</label>
+        <input type="number" step="1" max="5" min="1" name="rating" id="rating" />
+      </div>
+      <div class="modal__actions">
+        <button class="btn btn--passive">Cancel</button>
+        <button class="btn btn--success">Add</button>
+      </div>
+    </div>
+    <section class="home-section">
+      <div>
+        <h1 id="visor"></h1>
+      </div>
+      <div>
+        <button id="start-btn"><strong>ENTRAR</strong></button>
+      </div>
+      <div id="user-modal" class="modal visible">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" id="name-input" />
+        <button id="login-btn">Entrar</button>
+      </div>
+    </section>
+    <section class="register">
+      <header>
+        <h1 id="register-point" class="title-page">REGISTRO</h1>
+      </header>
+      <ol id="register-section"></ol>
+    </section>
+    <section class="register">
+      <header>
+        <h1 id="historic-point" class="title-page">HISTÓRICO</h1>
+      </header>
+      <ol id="historic-section"></ol>
+    </section>
+    <section class="block-screen"><span></span></section>
+  </body>
+</html>

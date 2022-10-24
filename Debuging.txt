@@ -1,0 +1,5 @@
+1. Ao ficar sem internet, o programa retorna um erro e informa ao usuário que ele esta sem conexão com a internet. 
+Se clicarmos novamente o botão não retorna mais erros, deixando o usuário sem informações.
+Se conectarmos novamente a internet, o botão continua sem funcionar. Precisamos fechar e abri o programa para conseguirmos dar logout.
+
+#tenho que estudar se existem funções nativas de armazenamento e analise de dados para tirar a conexão com a internet do app.
