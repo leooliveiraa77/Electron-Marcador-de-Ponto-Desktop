@@ -1,4 +1,4 @@
-import { exportDataSheet } from '../backend/server.js';
+import { exportDataSheet } from '../../server.js';
 
 const visor = document.getElementById('visor');
 const startBtn = document.getElementById('start-btn');
@@ -9,10 +9,15 @@ const registerSectionElement = document.getElementById('register-section');
 const historicSectionElement = document.getElementById('historic-section');
 
 const justificationBtn = document.getElementById('justification-btn');
-const modalJustification = document.getElementById('add-modal');
+const modalJustification = document.getElementById('justification-modal');
+const cancelJustificationBtn = document.getElementById('btn-cancel-justification');
+const sendJustificationBtn = document.getElementById('btn-send-justification');
+const nameJustification = document.getElementById('name-justification');
+const dateJustification = document.getElementById('date-justification');
+const descriptionJustification = document.getElementById('description-justification');
 
 let dataFromUser = [];
-let dataFromUserLogout = [];
+export let dataFromUserLogout = [];
 let showTime;
 let dateRegister;
 let idNumber = 0;
@@ -71,7 +76,9 @@ const loginHandler = () => {
     timeLogout: undefined,
     date: dateRegister,
   };
-  idNumber++; // posso retirar o ID
+  idNumber++;
+  localStorage.setItem('id', JSON.stringify(idNumber));
+
   dataFromUser.push(newEntry);
   localDataHandler('myLogin', dataFromUser);
 
@@ -88,20 +95,20 @@ const clearEntryInput = () => {
 const logoutHandler = (name, login, date, id) => {
   if (statusApp) {
     //dataFromUser[id].timeLogout = showTime ? console.log('null showTime') : console.log('null showTime');
-
+    console.log('log out . . .');
     const userData = {
       name: name,
       timeLogin: login,
       date: date,
       timeLogout: showTime,
     };
-    dataFromUserLogout.push(userData);
 
-    localDataHandler('myHistory', dataFromUserLogout);
+    if (dataFromUserLogout.length >= 10) {
+      dataFromUserLogout.shift();
+    }
 
-    renderHistoricElements(userData.name, userData.timeLogin, userData.date, userData.timeLogout);
-    exportDataSheet(userData.name, userData.timeLogin, userData.timeLogout, userData.date);
-
+    exportDataSheet(userData.name, userData.timeLogin, userData.timeLogout, userData.date, 'vazio', userData);
+    //if (!statusApp)
     deleteId = id;
   }
   statusApp = false;
@@ -119,7 +126,7 @@ const renderRegisterElements = (name, login, date, id) => {
   logoutBtn.addEventListener('click', logoutHandler.bind(null, name, login, date, id));
 };
 
-const renderHistoricElements = (name, login, date, logout) => {
+export const renderHistoricElements = (name, login, date, logout) => {
   const numberElHistoric = historicSectionElement.childNodes.length;
   if (numberElHistoric > 3) {
     historicSectionElement.firstChild.remove();
@@ -131,14 +138,16 @@ const renderHistoricElements = (name, login, date, logout) => {
 };
 
 const justificationModal = () => {
-  modalJustification.classList.add('visible');
+  modalJustification.classList.toggle('visible');
 };
 
 export const deleteElHandler = (id) => {
   registerSectionElement.querySelector(`.btn-${id}`).remove();
 };
 
-const localDataHandler = (name, userData) => {
+export const updatingLocalHistoryData = () => {};
+
+export const localDataHandler = (name, userData) => {
   localStorage.setItem(`${name}`, JSON.stringify(userData));
 };
 
@@ -147,6 +156,9 @@ const loadUI = (dataPackage) => {
   if (!hasData) {
     console.log('working..');
     return;
+  } else if (dataPackage === 'id' && !dataPackage) {
+    idNumber = 0;
+    console.log(idNumber + ' foi setado');
   }
 
   //const haveData = localStorage.length; deletar
@@ -163,6 +175,11 @@ const loadUI = (dataPackage) => {
     for (let i = 0; i < personObject.length; i++) {
       renderRegisterElements(personObject[i].name, personObject[i].timeLogin, personObject[i].date, personObject[i].id);
     }
+  } else if (dataPackage === 'id') {
+    let getId = localStorage.getItem(dataPackage);
+    let idObject = JSON.parse(getId);
+    console.log(idObject + ' foi pego do local');
+    idNumber = idObject;
   }
 };
 
@@ -193,15 +210,26 @@ const init = () => {
   console.log(dataFromUserLogout);
   loadUI('myLogin');
   loadUI('myHistory');
+  loadUI('id');
 };
 
 justificationBtn.addEventListener('click', () => {
   //provisório
-  localStorage.clear();
+  //localStorage.clear();
+  justificationModal();
 });
+
+const justificationExportDataHandler = () => {
+  exportDataSheet(nameJustification.value, undefined, null, dateJustification.value, descriptionJustification.value);
+
+  nameJustification.value = '';
+};
 
 startBtn.addEventListener('click', startHandler);
 loginBtn.addEventListener('click', loginHandler);
+
+cancelJustificationBtn.addEventListener('click', justificationModal);
+sendJustificationBtn.addEventListener('click', justificationExportDataHandler);
 
 const getUserLocation = () => {
   let lat, lon;
@@ -213,10 +241,11 @@ const getUserLocation = () => {
 };
 
 const verifyingLocation = (lat, lon) => {
+  console.log('geolocali... ' + lat.toFixed(3) + ' ' + lon.toFixed(3));
   const latHome = -20.76;
   const lonHome = -42.874;
-  //DPE loc verification = lat.toFixed(3) === -20.759 && lon.toFixed(3) === -42.869
-  //Posinho loc verification = lat.toFixed(3) === -20.76 && lon.toFixed(3) === -42.874
+  //Posinh loc verification = lat.toFixed(3) === -20.759 && lon.toFixed(3) === -42.869
+  //DPE loc verification = lat.toFixed(3) === -20.76 && lon.toFixed(3) === -42.874
 
   if (lat.toFixed(3) === latHome.toFixed(3) && lon.toFixed(3) === lonHome.toFixed(3)) {
     modalUser.classList.toggle('visible');
@@ -226,4 +255,5 @@ const verifyingLocation = (lat, lon) => {
     alert('Você não está no DPE');
   }
 };
+
 init();

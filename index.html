@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PET - Marcador de Ponto</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="./assets/js/app.js" defer type="module"></script>
-    <script type="module" src="./assets/backend/server.js" defer></script>
+    <script src="./assets/js/app.js" type="module" defer></script>
+    <script src="./server.js" type="module" defer></script>
+    <script src="./environment.js" type="module" defer></script>
     <link rel="stylesheet" href="./assets/css/style.css" />
     <link rel="apple-touch-icon" sizes="180x180" href="./assets/images/favicon_io/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon_io/favicon-32x32.png" />
@@ -27,18 +28,24 @@
       </div>
     </header>
     <div id="backdrop"></div>
-    <div class="modal-justification" id="add-modal">
+    <div class="modal-justification" id="justification-modal">
       <div class="modal__content">
-        <label for="title">Movie Title</label>
-        <input type="text" name="title" id="title" />
-        <label for="image-url">Image URL</label>
-        <input type="text" name="image-url" id="image-url" />
-        <label for="rating">Your Rating</label>
-        <input type="number" step="1" max="5" min="1" name="rating" id="rating" />
+        <div>
+          <label for="title">Nome: </label>
+          <input type="text" name="title" id="name-justification" />
+        </div>
+        <div>
+          <label for="date">Data: </label>
+          <input type="date" name="date" id="date-justification" />
+        </div>
+        <div>
+          <label for="description">Descrição: </label>
+          <input type="text" name="description" id="description-justification" />
+        </div>
       </div>
       <div class="modal__actions">
-        <button class="btn btn--passive">Cancel</button>
-        <button class="btn btn--success">Add</button>
+        <button class="btn btn--passive" id="btn-cancel-justification">Cancelar</button>
+        <button class="btn btn--success" id="btn-send-justification">enviar</button>
       </div>
     </div>
     <section class="home-section">

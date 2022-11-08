@@ -1,21 +1,24 @@
-import { deleteElHandler, deleteId, statusHandler, updateStorage } from '../js/app.js';
+import { deleteElHandler, deleteId, statusHandler, updateStorage, renderHistoricElements, dataFromUserLogout, localDataHandler } from './assets/js/app.js';
+import { keyEnv } from './environment.js';
 
-export const exportDataSheet = (name, login, logout, date) => {
+export const exportDataSheet = (name, login, logout, date, justification, userDataObj) => {
   axios
     .post(
-      'https://sheetdb.io/api/v1/7x5t54ile9k99',
+      keyEnv.tableAdressServer,
       {
         data: {
           name: name,
           login: login,
           logout: logout,
           date: date,
+          justification: justification,
+          userData: userDataObj,
         },
       },
       {
         auth: {
-          username: 'z3sdpklb',
-          password: '53bhuo9kqmksvd2vjsdv',
+          username: keyEnv.tableIdServer,
+          password: keyEnv.tableTokenServer,
         },
       }
     )
@@ -25,6 +28,10 @@ export const exportDataSheet = (name, login, logout, date) => {
         alert('Registrado com sucesso. Até a próxima PETIANO');
         deleteElHandler(deleteId);
         updateStorage(name);
+        dataFromUserLogout.push(userDataObj);
+        console.log(dataFromUserLogout);
+        localDataHandler('myHistory', dataFromUserLogout);
+        renderHistoricElements(name, login, date, logout);
         statusHandler();
       } else {
         alert('Erro ' + response.status);
@@ -43,7 +50,7 @@ export const exportDataSheet = (name, login, logout, date) => {
         // http.ClientRequest in node.js
         console.log('4' + error.request);
         alert('Erro: ' + error + ' \n Provavelmente sem conexão com internet :(');
-        statusApp = true;
+        statusHandler();
       } else {
         statusHandler();
         console.log('Erro: ' + error.message);

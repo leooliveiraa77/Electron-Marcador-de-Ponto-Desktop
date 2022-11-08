@@ -114,7 +114,8 @@ body {
   border-radius: 15px;
 }
 
-#user-modal button {
+#user-modal button,
+.modal__actions button {
   background-color: rgb(0, 0, 0);
   color: white;
   border-radius: 5px;
@@ -150,16 +151,19 @@ body {
 .modal-justification {
   position: fixed;
   z-index: 100;
-  background: white;
+  background: rgb(0, 0, 0);
+  color: white;
   border-radius: 10px;
-  width: 80%;
+  width: 50%;
+  height: 25%;
   top: 30vh;
-  left: 10%;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  left: 25%;
+  box-shadow: 1px 1px 10px 1px rgba(1, 222, 251, 0.324);
   display: none;
+  font-family: 'roboto condensed';
 }
 .modal-justification.visible {
-  display: block;
+  display: inline-block;
   animation: fade-slide-in 0.3 ease-out forwards;
 }
 
@@ -174,17 +178,25 @@ body {
   pointer-events: none;
   display: none;
 }
-/* 
+
 .modal__content {
   display: flex;
   flex-direction: column;
+  padding-top: 1.5%;
+  padding-left: 1.5%;
 }
+
+.modal__content div {
+  padding-bottom: 1.5%;
+}
+
 .modal__actions {
   padding: 1rem;
   display: flex;
   justify-content: flex-end;
 }
 
+/*
 #backdrop {
   position: fixed;
   width: 100%;
